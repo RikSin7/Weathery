@@ -171,6 +171,10 @@ export default function Dashboard() {
             aqi={currentAqi?.us_aqi}
             pm25={currentAqi?.pm2_5}
             pm10={currentAqi?.pm10}
+            co={currentAqi?.carbon_monoxide}
+            co2={currentAqi?.carbon_dioxide}
+            no2={currentAqi?.nitrogen_dioxide}
+            so2={currentAqi?.sulphur_dioxide}
           />
         </motion.div>
       </motion.div>

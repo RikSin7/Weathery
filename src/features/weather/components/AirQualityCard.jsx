@@ -10,11 +10,11 @@ const getAQIStatus = (aqi) => {
   return { label: "Unhealthy", color: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400" };
 };
 
-export function AirQualityCard({ aqi, pm25, pm10 }) {
+export function AirQualityCard({ aqi, pm25, pm10, co, co2, no2, so2 }) {
   const status = getAQIStatus(aqi);
 
   return (
-    <Card className="col-span-full md:col-span-2 lg:col-span-1 border-l-4 border-l-blue-500">
+    <Card className="col-span-full md:col-span-2 lg:col-span-1">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-slate-500 dark:text-neutral-400">Air Quality Index</h3>
         <Wind className="w-5 h-5 text-blue-500" />
@@ -28,7 +28,7 @@ export function AirQualityCard({ aqi, pm25, pm10 }) {
       </div>
 
       {/* Mini Grid for specific pollutants */}
-      <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100 dark:border-neutral-800">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-100 dark:border-neutral-800">
         <div>
           <p className="text-xs text-slate-400 dark:text-neutral-500">PM2.5</p>
           <p className="font-semibold text-slate-700 dark:text-neutral-300">{pm25} <span className="text-xs font-normal">µg/m³</span></p>
@@ -36,6 +36,22 @@ export function AirQualityCard({ aqi, pm25, pm10 }) {
         <div>
           <p className="text-xs text-slate-400 dark:text-neutral-500">PM10</p>
           <p className="font-semibold text-slate-700 dark:text-neutral-300">{pm10} <span className="text-xs font-normal">µg/m³</span></p>
+        </div>
+        <div>
+          <p className="text-xs text-slate-400 dark:text-neutral-500">CO</p>
+          <p className="font-semibold text-slate-700 dark:text-neutral-300">{co ?? "--"} <span className="text-xs font-normal">µg/m³</span></p>
+        </div>
+        <div>
+          <p className="text-xs text-slate-400 dark:text-neutral-500">CO₂</p>
+          <p className="font-semibold text-slate-700 dark:text-neutral-300">{co2 ?? "--"} <span className="text-xs font-normal">µg/m³</span></p>
+        </div>
+        <div>
+          <p className="text-xs text-slate-400 dark:text-neutral-500">NO₂</p>
+          <p className="font-semibold text-slate-700 dark:text-neutral-300">{no2 ?? "--"} <span className="text-xs font-normal">µg/m³</span></p>
+        </div>
+        <div>
+          <p className="text-xs text-slate-400 dark:text-neutral-500">SO₂</p>
+          <p className="font-semibold text-slate-700 dark:text-neutral-300">{so2 ?? "--"} <span className="text-xs font-normal">µg/m³</span></p>
         </div>
       </div>
     </Card>

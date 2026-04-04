@@ -60,7 +60,7 @@ export function HistoricalCharts({ weatherData, aqiData, activeTab }) {
       };
       
       return {
-        legend: { data: ["Sunrise", "Sunset"], bottom: 0 },
+        legend: { data: ["Sunrise (IST)", "Sunset (IST)"], bottom: 0 },
         xAxis: { type: "category", data: dates },
         yAxis: { 
           type: "value", 
@@ -68,8 +68,8 @@ export function HistoricalCharts({ weatherData, aqiData, activeTab }) {
           axisLabel: { formatter: (val) => `${Math.floor(val)}:00` } 
         },
         series: [
-          { name: "Sunrise", type: "line", data: weatherData.daily.sunrise.map(timeToDecimal), color: "#f59e0b", smooth: true },
-          { name: "Sunset", type: "line", data: weatherData.daily.sunset.map(timeToDecimal), color: "#f97316", smooth: true }
+          { name: "Sunrise (IST)", type: "line", data: weatherData.daily.sunrise.map(timeToDecimal), color: "#f59e0b", smooth: true },
+          { name: "Sunset (IST)", type: "line", data: weatherData.daily.sunset.map(timeToDecimal), color: "#f97316", smooth: true }
         ]
       };
     }
