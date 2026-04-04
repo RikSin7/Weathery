@@ -18,3 +18,11 @@ export const CHART_TABS = [
   { id: "visibility", label: "Visibility" },
   { id: "aqi", label: "Air Quality (PM)" },
 ];
+
+export const HISTORY_TABS = [
+  { id: "temp", label: "Temperature Stats" },
+  { id: "precip", label: "Precipitation" },
+  { id: "wind", label: "Wind Patterns" },
+  { id: "sun", label: "Sun Cycle (IST)" },
+  { id: "aqi", label: "Air Quality Trends" },
+];

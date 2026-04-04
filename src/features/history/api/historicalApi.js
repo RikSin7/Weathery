@@ -27,6 +27,6 @@ export const fetchHistoricalAQI = async (lat, lon, startDate, endDate) => {
     timezone: "auto",
   };
 
-  const response = await apiClient.get("https://air-quality-api.open-meteo.com/v1/history", { params });
+  const response = await apiClient.get(API_ENDPOINTS.AIR_QUALITY_BASE, { params });
   return response.data;
 };

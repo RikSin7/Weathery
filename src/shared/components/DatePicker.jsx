@@ -1,4 +1,3 @@
-import { Calendar } from "lucide-react";
 import { cn } from "../utils/cn";
 
 export function DatePicker({ value, onChange, min, max, className }) {

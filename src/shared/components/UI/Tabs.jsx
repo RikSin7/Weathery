@@ -1,11 +1,10 @@
 import { motion } from "motion/react";
 import { cn } from "../../utils/cn";
-import { CHART_TABS } from "../../../config/constants";
 
-export function Tabs({ activeTab, onChange }) {
+export function Tabs({ tabs, activeTab, onChange }) {
   return (
     <div className="flex flex-wrap gap-2 p-1 bg-slate-100 dark:bg-slate-900 rounded-xl w-fit">
-      {CHART_TABS.map((tab) => {
+      {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
           <button

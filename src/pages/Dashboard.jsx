@@ -14,6 +14,7 @@ import { Card } from "../shared/components/UI/Card";
 import { Tabs } from "../shared/components/UI/Tabs";
 import { formatTime, getFutureDate, getTodayDate } from "../shared/utils/formatters";
 import { DatePicker } from "../shared/components/DatePicker";
+import { CHART_TABS } from "../config/constants";
 
 // Framer Motion variants for a clean staggered entrance
 const containerVariants = {
@@ -183,14 +184,7 @@ export default function Dashboard() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h2 className="text-xl font-bold text-slate-800 dark:text-neutral-100">Hourly Forecast</h2>
           <Tabs
-            tabs={[
-              { id: "temp", label: "Temperature" },
-              { id: "humidity", label: "Humidity" },
-              { id: "wind", label: "Wind" },
-              { id: "precipitation", label: "Rain" },
-              { id: "visibility", label: "Visibility" },
-              { id: "aqi", label: "Air Quality" },
-            ]}
+            tabs={CHART_TABS}
             activeTab={activeTab}
             onChange={setActiveTab}
           />

@@ -18,3 +18,8 @@ export const getThreeMonthsFromNow = () => {
   return new Date(Date.now() + 3 * 30 * 86400000).toISOString().split("T")[0];
 };
 
+export const getTwoYearsOffset = (dateString, isFuture) => {
+  const date = new Date(dateString);
+  date.setFullYear(date.getFullYear() + (isFuture ? 2 : -2));
+  return date.toISOString().split("T")[0];
+};
