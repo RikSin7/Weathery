@@ -9,3 +9,12 @@ export const DEFAULT_LOCATION = {
   lat: 28.6139,
   lon: 77.2090, 
 };
+
+export const CHART_TABS = [
+  { id: "temp", label: "Temperature" },
+  { id: "humidity", label: "Humidity" },
+  { id: "wind", label: "Wind" },
+  { id: "precipitation", label: "Rain" },
+  { id: "visibility", label: "Visibility" },
+  { id: "aqi", label: "Air Quality (PM)" },
+];

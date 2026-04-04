@@ -5,9 +5,9 @@ export function BaseChart({ option, height = "350px" }) {
   const defaultOption = {
     tooltip: {
       trigger: "axis",
-      backgroundColor: "rgba(255, 255, 255, 0.9)",
-      borderColor: "#e2e8f0",
-      textStyle: { color: "#1e293b" },
+      backgroundColor: "var(--chart-tooltip-bg)",
+      borderColor: "var(--chart-tooltip-border)",
+      textStyle: { color: "var(--chart-tooltip-text)" },
     },
     grid: {
       top: 40,

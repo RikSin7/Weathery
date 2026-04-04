@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { Droplets, Wind, Sun, Navigation, Thermometer } from "lucide-react";
+import { Droplets, Wind, Sunrise, Sunset, Navigation, Thermometer, Sun } from "lucide-react";
+
 import { useWeather } from "../features/weather/hooks/useWeather";
 import { useAirQuality } from "../features/weather/hooks/useAirQuality";
 import { WeatherCard } from "../features/weather/components/WeatherCard";
 import { AirQualityCard } from "../features/weather/components/AirQualityCard";
-import { useUnit } from "../providers/UnitProvider";
-import { Card } from "../shared/components/UI/Card";
+import { HourlyForecastChart } from "../features/charts/components/HourlyForecastChart";
 import { formatTemp } from "../features/weather/utils/unitConversion";
-import { HourlyTemperatureChart } from "../features/weather/components/HourlyCharts";
+import { useUnit } from "../providers/UnitProvider";
+
+import { Card } from "../shared/components/UI/Card";
+import { Tabs } from "../shared/components/UI/Tabs";
+import { formatTime, getFutureDate, getTodayDate } from "../shared/utils/formatters";
+import { DatePicker } from "../shared/components/DatePicker";
 
 // Framer Motion variants for a clean staggered entrance
 const containerVariants = {
@@ -24,8 +30,10 @@ const itemVariants = {
 };
 
 export default function Dashboard() {
-  const { data: weather, isLoading: weatherLoading } = useWeather();
-  const { data: aqi, isLoading: aqiLoading } = useAirQuality();
+  const [activeTab, setActiveTab] = useState("temp");
+  const [selectedDate, setSelectedDate] = useState(getTodayDate());
+  const { data: weather, isLoading: weatherLoading } = useWeather(selectedDate);
+  const { data: aqi, isLoading: aqiLoading } = useAirQuality(selectedDate);
 
   const { isCelsius } = useUnit();
 
@@ -39,16 +47,30 @@ export default function Dashboard() {
   const daily = weather?.daily; // array of daily data
 
   const unitSymbol = isCelsius ? "°C" : "°F";
-  
+
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-800 dark:text-neutral-100">Today's Overview</h1>
-        <p className="text-slate-500 dark:text-neutral-400">Live weather conditions and air quality metrics.</p>
+
+      {/* Date picker and header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-800 dark:text-neutral-100">
+            {selectedDate === getTodayDate() ? "Today's Overview" : `Overview for ${selectedDate}`}
+          </h1>
+          <p className="text-slate-500 dark:text-neutral-400">Live weather conditions and air quality metrics.</p>
+        </div>
+
+        <DatePicker
+          value={selectedDate}
+          onChange={setSelectedDate}
+          // Open-Meteo forecast endpoint generally supports ~14 days ahead and up to 3 months back
+          max={getFutureDate(14)}
+          min={getFutureDate(-90)}
+        />
       </div>
 
       {/* Temperature Hero Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
@@ -66,7 +88,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex gap-6 mt-4 md:mt-0 bg-blue-600/30 dark:bg-blue-900/40 p-4 rounded-xl">
             <div>
               <p className="text-blue-200 text-sm">High</p>
@@ -85,58 +107,100 @@ export default function Dashboard() {
         </Card>
       </motion.div>
 
-      <motion.div 
+      {/*  Grid  */}
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
-        {/* Core Metric Cards */}
         <motion.div variants={itemVariants}>
-          <WeatherCard 
-            title="Relative Humidity" 
-            value={current?.relative_humidity_2m} 
-            unit="%" 
+          <WeatherCard
+            title="Relative Humidity"
+            value={current?.relative_humidity_2m}
+            unit="%"
             icon={Droplets}
             description="The current amount of moisture in the air."
           />
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <WeatherCard 
-            title="Wind Speed" 
-            value={current?.wind_speed_10m} 
-            unit="km/h" 
+          <WeatherCard
+            title="Wind Speed"
+            value={current?.wind_speed_10m}
+            unit="km/h"
             icon={Wind}
+            description={`Max expected: ${daily?.wind_speed_10m_max?.[0] || "--"} km/h`}
           />
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <WeatherCard 
-            title="Precipitation" 
-            value={current?.precipitation} 
-            unit="mm" 
+          <WeatherCard
+            title="Precipitation"
+            value={current?.precipitation}
+            unit="mm"
             icon={Navigation}
-            description="Expected rainfall for the current hour."
+            description={`Max Probability: ${daily?.precipitation_probability_max?.[0] || 0}%`}
           />
         </motion.div>
 
-        {/* Dedicated AQI Card spanning 2 columns on tablet, 1 on desktop */}
-        <motion.div variants={itemVariants} className="md:col-span-2 lg:col-span-1">
-          <AirQualityCard 
+        <motion.div variants={itemVariants}>
+          <WeatherCard
+            title="UV Index"
+            value={daily?.uv_index_max?.[0] || "--"}
+            unit=""
+            icon={Sun}
+            description="Maximum UV index expected today."
+          />
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <WeatherCard
+            title="Sunrise"
+            value={formatTime(daily?.sunrise?.[0])}
+            unit=""
+            icon={Sunrise}
+            description={`Sunset will be at ${formatTime(daily?.sunset?.[0])}`}
+          />
+        </motion.div>
+
+        {/* Dedicated AQI Card spanning necessary columns based on breakpoint */}
+        <motion.div variants={itemVariants} className="md:col-span-2 lg:col-span-1 xl:col-span-3">
+          <AirQualityCard
             aqi={currentAqi?.us_aqi}
             pm25={currentAqi?.pm2_5}
             pm10={currentAqi?.pm10}
           />
         </motion.div>
       </motion.div>
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mt-8"
+
+      {/* Charts Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-4 mt-8"
       >
-        <h2 className="text-xl font-bold text-slate-800 dark:text-neutral-100 mb-4">Hourly Forecast</h2>
-        <HourlyTemperatureChart hourlyData={weather?.hourly} />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-neutral-100">Hourly Forecast</h2>
+          <Tabs
+            tabs={[
+              { id: "temp", label: "Temperature" },
+              { id: "humidity", label: "Humidity" },
+              { id: "wind", label: "Wind" },
+              { id: "precipitation", label: "Rain" },
+              { id: "visibility", label: "Visibility" },
+              { id: "aqi", label: "Air Quality" },
+            ]}
+            activeTab={activeTab}
+            onChange={setActiveTab}
+          />
+        </div>
+
+        <HourlyForecastChart
+          weatherData={weather}
+          aqiData={aqi}
+          activeTab={activeTab}
+        />
       </motion.div>
     </div>
   );
