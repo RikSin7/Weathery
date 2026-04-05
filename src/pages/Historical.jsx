@@ -41,7 +41,7 @@ export default function Historical() {
         <div className="p-12 text-center bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
           <div className="animate-pulse space-y-4">
             <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4 mx-auto"></div>
-            <p className="text-slate-500 dark:text-slate-400">Crunching historical data...</p>
+            <p className="text-slate-500 dark:text-slate-400">Fetching historical data...</p>
           </div>
         </div>
       )}

@@ -39,7 +39,7 @@ export default function Dashboard() {
   const { isCelsius } = useUnit();
 
   if (weatherLoading || aqiLoading) {
-    return <div className="p-8 text-center text-slate-500 dark:text-neutral-400 animate-pulse">Loading weather data...</div>;
+    return <div className="p-8 text-center text-slate-500 dark:text-neutral-400 animate-pulse">Fetching weather data...</div>;
   }
 
   // Safe destructuring of your Open-Meteo data payload
