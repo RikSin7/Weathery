@@ -12,11 +12,11 @@
     --chart-tooltip-bg: rgba(15, 23, 42, 0.95);
     --chart-tooltip-border: #334155;
     --chart-tooltip-text: #f8fafc;
-    --chart-text: #e2e8f0; /* Lighter/brighter for dark mode aesthetics */
+    --chart-text: #e2e8f0; 
   }
 }
 
-/* Custom Elegant Thin Scrollbar */
+/* Thin Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
