@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { useHistoricalData } from "../features/history/hooks/useHistoricalData";
 import { DateRangePicker } from "../shared/components/DateRangePicker";
 import { Tabs } from "../shared/components/UI/Tabs";
+import { Loader } from "../shared/components/UI/Loader";
 import { HistoricalCharts } from "../features/charts/components/HistoricalCharts";
 import { HISTORY_TABS } from "../config/constants";
 import { getFutureDate } from "../shared/utils/formatters";
@@ -37,14 +38,7 @@ export default function Historical() {
       </div>
 
       {/* States */}
-      {isLoading && (
-        <div className="p-12 text-center bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4 mx-auto"></div>
-            <p className="text-slate-500 dark:text-slate-400">Fetching historical data...</p>
-          </div>
-        </div>
-      )}
+      {isLoading && <Loader text="Fetching historical data..." />}
 
       {isError && (
         <div className="p-8 text-center text-red-500 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-100 dark:border-red-800">
@@ -68,13 +62,16 @@ export default function Historical() {
             />
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-2 sm:p-4 border border-slate-200 dark:border-slate-700 shadow-sm">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
             <HistoricalCharts 
               weatherData={data.weather} 
               aqiData={data.aqi} 
               activeTab={activeTab} 
             />
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </div>

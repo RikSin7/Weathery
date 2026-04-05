@@ -12,6 +12,7 @@ import { useUnit } from "../providers/UnitProvider";
 
 import { Card } from "../shared/components/UI/Card";
 import { Tabs } from "../shared/components/UI/Tabs";
+import { Loader } from "../shared/components/UI/Loader";
 import { formatTime, getFutureDate, getTodayDate } from "../shared/utils/formatters";
 import { DatePicker } from "../shared/components/DatePicker";
 import { CHART_TABS } from "../config/constants";
@@ -39,7 +40,7 @@ export default function Dashboard() {
   const { isCelsius } = useUnit();
 
   if (weatherLoading || aqiLoading) {
-    return <div className="p-8 text-center text-slate-500 dark:text-neutral-400 animate-pulse">Fetching weather data...</div>;
+    return <Loader text="Fetching weather data..." />;
   }
 
   // Safe destructuring of your Open-Meteo data payload

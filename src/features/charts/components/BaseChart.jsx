@@ -3,6 +3,9 @@ import ReactECharts from "echarts-for-react";
 export function BaseChart({ option, height = "350px" }) {
   // inject the Zoom & Pan settings into every chart automatically
   const defaultOption = {
+    textStyle: {
+      color: "var(--chart-text)", // Global basic text color
+    },
     tooltip: {
       trigger: "axis",
       backgroundColor: "var(--chart-tooltip-bg)",
@@ -12,7 +15,7 @@ export function BaseChart({ option, height = "350px" }) {
     grid: {
       top: 40,
       right: 20,
-      bottom: 40,
+      bottom: 80, // Increased space to avoid overlap
       left: 40,
       containLabel: true,
     },
@@ -25,8 +28,11 @@ export function BaseChart({ option, height = "350px" }) {
       },
       {
         type: "slider", // Shows the horizontal scrollbar at the bottom
-        bottom: 0,
-        height: 20,
+        bottom: 0, // Sit nicely beneath legend
+        height: 25,
+        textStyle: {
+          color: "var(--chart-text)", // Match elegant styling
+        },
       },
     ],
     ...option, // Merge in the specific chart data (Temp, Wind, etc.)

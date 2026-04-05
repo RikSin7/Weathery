@@ -14,7 +14,7 @@ export function HistoricalCharts({ weatherData, aqiData, activeTab }) {
     // 1. Temperature: Multi-Line (Max, Mean, Min)
     if (activeTab === "temp") {
       return {
-        legend: { data: ["Max Temp", "Mean Temp", "Min Temp"], bottom: 0 },
+        legend: { data: ["Max Temp", "Mean Temp", "Min Temp"], bottom: 35 },
         xAxis: { type: "category", data: dates },
         yAxis: { type: "value", axisLabel: { formatter: `{value}${isCelsius ? "°C" : "°F"}` } },
         series: [
@@ -37,7 +37,7 @@ export function HistoricalCharts({ weatherData, aqiData, activeTab }) {
     // 3. Wind: Combo Chart (Speed Line + Direction Scatter)
     if (activeTab === "wind") {
       return {
-        legend: { data: ["Max Speed", "Dominant Direction"], bottom: 0 },
+        legend: { data: ["Max Speed", "Dominant Direction"], bottom: 35 },
         xAxis: { type: "category", data: dates },
         yAxis: [
           { type: "value", name: "Speed (km/h)", position: "left" },
@@ -60,7 +60,7 @@ export function HistoricalCharts({ weatherData, aqiData, activeTab }) {
       };
       
       return {
-        legend: { data: ["Sunrise (IST)", "Sunset (IST)"], bottom: 0 },
+        legend: { data: ["Sunrise (IST)", "Sunset (IST)"], bottom: 35 },
         xAxis: { type: "category", data: dates },
         yAxis: { 
           type: "value", 
@@ -80,7 +80,7 @@ export function HistoricalCharts({ weatherData, aqiData, activeTab }) {
       const hourlyTimes = aqiData.hourly.time.map(t => t.split("T")[0]); // Simplify to just dates
       
       return {
-        legend: { data: ["PM2.5", "PM10"], bottom: 0 },
+        legend: { data: ["PM2.5", "PM10"], bottom: 35 },
         xAxis: { type: "category", data: hourlyTimes },
         yAxis: { type: "value", name: "µg/m³" },
         series: [

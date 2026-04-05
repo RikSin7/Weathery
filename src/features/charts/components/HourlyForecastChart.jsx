@@ -52,7 +52,7 @@ export function HourlyForecastChart({ weatherData, aqiData, activeTab }) {
       return {
         xAxis: { type: 'category', data: times },
         yAxis: { type: 'value', name: 'µg/m³' },
-        legend: { data: ['PM2.5', 'PM10'], bottom: 0 },
+        legend: { data: ['PM2.5', 'PM10'], bottom: 35 },
         series: [
           { name: 'PM2.5', type: 'line', data: aqiData.hourly.pm2_5, color: '#f43f5e', smooth: true },
           { name: 'PM10', type: 'line', data: aqiData.hourly.pm10, color: '#fb923c', smooth: true }
